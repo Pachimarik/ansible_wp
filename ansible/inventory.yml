@@ -1,0 +1,11 @@
+all:
+  vars:
+    become: 'yes'
+    become_method: 'sudo'
+    become_user: "{{ lookup('env','SSH_USERNAME') }}"
+    ansible_become_pass: "{{ lookup('env','SSH_PASSWORD') }}"
+    ansible_ssh_user: "{{ lookup('env','SSH_USERNAME') }}"
+    ansible_ssh_pass: "{{ lookup('env','SSH_PASSWORD') }}"
+  hosts:
+    node1:
+      ansible_ssh_host: "{{ lookup('env','HOST_1') }}"

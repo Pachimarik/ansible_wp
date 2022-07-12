@@ -1,0 +1,4 @@
+SSH_USERNAME="root"
+SSH_PASSWORD="P@ssw0rd"
+
+HOST_1="192.168.15.42"
