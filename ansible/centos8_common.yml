@@ -1,0 +1,67 @@
+- hosts: 'all'
+  become: 'yes'
+  tasks:
+  - name: Comment mirrorlist
+    shell: sed -i 's/mirrorlist/#mirrorlist/g' /etc/yum.repos.d/CentOS-*
+
+  - name: Change baseurl
+    shell: sed -i 's|#baseurl=http://mirror.centos.org|baseurl=http://vault.centos.org|g' /etc/yum.repos.d/CentOS-*
+
+  - name: Install yum utils
+    yum:
+      update_cache: yes
+      state: present
+      name:
+        - yum-utils
+
+  - name: Ensure SELinux is set to disabled mode
+    lineinfile:
+      path: /etc/selinux/config
+      regexp: '^SELINUX='
+      line: SELINUX=disabled
+  
+  - name: Disable selinux
+    shell: setenforce 0
+
+  - name: Disable firewalld
+    systemd:
+      name: firewalld
+      state: stopped
+      enabled: no
+
+  - name: set mydistribution
+    set_fact:
+      mydistribution: "{{ 'rhel' if (ansible_distribution == 'Red Hat Enterprise Linux') else (ansible_distribution | lower) }}"
+
+  - name: Add signing key
+    rpm_key:
+      key: "https://download.docker.com/linux/{{ mydistribution }}/gpg"
+      state: present
+
+  - name: Add repository into repo.d list
+    yum_repository:
+      name: docker
+      description: docker repository
+      baseurl: "https://download.docker.com/linux/{{ mydistribution }}/$releasever/$basearch/stable"
+      enabled: true
+      gpgcheck: true
+      gpgkey: "https://download.docker.com/linux/{{ mydistribution }}/gpg"
+
+  - name: Install Docker engine
+    yum:
+      update_cache: yes
+      name:
+        - docker-ce
+  
+  - name: Autorun docker socket
+    systemd:
+      name: docker
+      enabled: yes
+      state: started
+
+  - name: Install Dokcer-compose
+    get_url:
+      url: https://github.com/docker/compose/releases/download/v2.6.1/docker-compose-linux-x86_64
+      dest: /usr/local/bin/docker-compose
+      mode: +x
+

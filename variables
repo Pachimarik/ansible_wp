@@ -3,7 +3,7 @@ SSH_USERNAME="root"
 SSH_PASSWORD="P@ssw0rd"
 
 # hosts
-HOST_1="192.168.15.42"
+HOST_1="192.168.15.43"
 
 # mysql
 DB_NAME="wp"

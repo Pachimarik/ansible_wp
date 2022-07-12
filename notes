@@ -1,7 +1,6 @@
 # Install compose
 curl -L "https://github.com/docker/compose/releases/download/v2.6.1/docker-compose-linux-$(uname -m)" -o /usr/local/bin/docker-compose
 chmod +x /usr/local/bin/docker-compose
-Centos 8 docker.service == podman.service
 disable firewalld
 disable selinux
 # docker repo for centos8
