@@ -1,4 +1,11 @@
+# user and password for connection
 SSH_USERNAME="root"
 SSH_PASSWORD="P@ssw0rd"
 
+# hosts
 HOST_1="192.168.15.42"
+
+# mysql
+DB_NAME="wp"
+DB_USER="wp_admin"
+DB_PASSWORD="P@ssw0rd"

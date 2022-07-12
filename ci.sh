@@ -10,3 +10,5 @@ python3.9 -m pip install ansible --user
 cd ansible/
 ansible-config view
 ansible -m ping all
+
+cd ..
