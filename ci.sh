@@ -10,12 +10,11 @@ export $(cat  variables | xargs)
 # python3.9 -m pip install ansible --user
 
 # ansible work
-# cd ansible/
-# ansible-config view
-# ansible -m ping all
+cd ansible/
+ansible-config view
+ansible -m ping all
 
 # #ansible-playbook centos8_common.yml
-# ansible-playbook wp_nginx.yml
+ansible-playbook wp_nginx.yml
 
-cd ./files/docker/nginx
-docker-compose up -d
+cd ..
