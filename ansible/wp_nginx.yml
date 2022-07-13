@@ -1,0 +1,9 @@
+- hosts: 'all'
+  become: 'yes'
+  tasks:
+  - name: copy wp nginx edition
+    copy: 
+      src: ../files/docker/nginx/{{ item }}
+      dest: /app/
+    with_items:
+      - docker-compose.yml
