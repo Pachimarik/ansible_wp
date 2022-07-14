@@ -15,6 +15,6 @@ ansible-config view
 ansible -m ping all
 
 ansible-playbook centos8_common.yml
-ansible-playbook wp_nginx.yml
+ansible-playbook wp_apache_with_db.yml
 
 cd ..

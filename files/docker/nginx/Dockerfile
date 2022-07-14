@@ -17,7 +17,6 @@ COPY start.sh /wp/start.sh
 RUN chmod +x start.sh
 RUN chown root:root start.sh
 
-VOLUME [/var/www/html/]
 EXPOSE 80 443
 ENTRYPOINT ./start.sh
 

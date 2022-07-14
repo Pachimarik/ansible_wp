@@ -20,16 +20,16 @@
 
 // ** Параметры базы данных: Эту информацию можно получить у вашего хостинг-провайдера ** //
 /** Имя базы данных для WordPress */
-define( 'DB_NAME', 'database_name_here' );
+define( 'DB_NAME', '*' );
 
 /** Имя пользователя базы данных */
-define( 'DB_USER', 'username_here' );
+define( 'DB_USER', '*' );
 
 /** Пароль к базе данных */
-define( 'DB_PASSWORD', 'password_here' );
+define( 'DB_PASSWORD', '*' );
 
 /** Имя сервера базы данных */
-define( 'DB_HOST', 'localhost' );
+define( 'DB_HOST', '*' );
 
 /** Кодировка базы данных для создания таблиц. */
 define( 'DB_CHARSET', 'utf8' );

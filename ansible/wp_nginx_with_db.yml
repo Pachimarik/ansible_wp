@@ -14,29 +14,16 @@
       - wp-config.php
       - mysql.env
 
-  - name: Edit wp-config.php DB_NAME
+  - name: Edit file wp-config.php
     lineinfile:
       dest: /app/wp-config.php
-      regexp: "define\\( 'DB_NAME', '.*' \\);"
-      line: "define( 'DB_NAME', '{{ lookup('env','DB_NAME') }}' );"
-
-  - name: Edit wp-config.php DB_USER
-    lineinfile:
-      dest: /app/wp-config.php
-      regexp: "define\\( 'DB_USER', '.*' \\);"
-      line: "define( 'DB_USER', '{{ lookup('env','DB_USER') }}' );"
-
-  - name: Edit wp-config.php DB_PASSWORD
-    lineinfile:
-      dest: /app/wp-config.php
-      regexp: "define\\( 'DB_PASSWORD', '.*' \\);"
-      line: "define( 'DB_PASSWORD', '{{ lookup('env','DB_PASSWORD') }}' );"
-
-  - name: Edit wp-config.php DB_HOST
-    lineinfile:
-      dest: /app/wp-config.php
-      regexp: "define\\( 'DB_HOST', '.*' \\);"
-      line: "define( 'DB_HOST', '{{ hostvars[inventory_hostname].ansible_host }}' );"
+      regexp: "{{ item.regexp }}"
+      line: "{{ item.line }}"
+    loop:
+      - { regexp: "define\\( 'DB_NAME', '.*' \\);", line: "define( 'DB_NAME', '{{ lookup('env','DB_NAME') }}' );" }
+      - { regexp: "define\\( 'DB_USER', '.*' \\);", line: "define( 'DB_USER', '{{ lookup('env','DB_USER') }}' );" }
+      - { regexp: "define\\( 'DB_PASSWORD', '.*' \\);", line: "define( 'DB_PASSWORD', '{{ lookup('env','DB_PASSWORD') }}' );" }
+      - { regexp: "define\\( 'DB_HOST', '.*' \\);", line: "define( 'DB_HOST', '{{ hostvars[inventory_hostname].ansible_host }}' );" }
 
   - name: Install python docker
     pip:
@@ -45,7 +32,7 @@
         - docker-compose
       extra_args: --user
 
-  - name: Set some kernel parameters
+  - name: Edit file mysql.env
     lineinfile:
       dest: /app/mysql.env
       regexp: "{{ item.regexp }}"
