@@ -2,10 +2,11 @@
 SSH_USERNAME="root"
 SSH_PASSWORD="P@ssw0rd"
 
-# hosts
-HOST_1="192.168.15.43"
+# hosts (EXAMPLE VARIABLE "HOST_x")
+HOST_1="192.168.15.44"
 
 # mysql
 DB_NAME="wp"
 DB_USER="wp_admin"
 DB_PASSWORD="P@ssw0rd"
+DB_HOST="192.168.15.43"

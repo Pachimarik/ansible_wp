@@ -1,0 +1,12 @@
+version: "2"
+services:
+  wp:
+    build: .
+    container_name: wordpress
+    restart: always
+    volumes:
+      - ./wp-conf:/etc/nginx/sites-enabled/default:ro
+      - ./certs/:/etc/nginx/certs/
+    ports:
+      - 80:80
+      - 443:443

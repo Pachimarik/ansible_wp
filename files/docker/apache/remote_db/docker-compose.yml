@@ -1,0 +1,12 @@
+version: "2"
+services:
+  wp:
+    build: .
+    container_name: wordpress
+    restart: always
+    volumes:
+      - ./default.conf:/etc/apache2/sites-enabled/000-default.conf:ro
+      - ./certs/:/etc/apache2/certs/
+    ports:
+      - 80:80
+      - 443:443

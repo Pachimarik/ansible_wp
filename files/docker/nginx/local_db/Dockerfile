@@ -11,12 +11,16 @@ RUN mkdir /wp
 WORKDIR /wp
 RUN curl -O https://ru.wordpress.org/latest-ru_RU.tar.gz
 RUN tar -xvzf latest-ru_RU.tar.gz -C /var/www/html/
+RUN mkdir /etc/nginx/certs/
+
 COPY wp-config.php /var/www/html/wordpress/wp-config.php
-COPY wp-conf /etc/nginx/sites-enabled/default
 COPY start.sh /wp/start.sh
+
 RUN chmod +x start.sh
 RUN chown root:root start.sh
 
+VOLUME [/etc/nginx/certs/]
+VOLUME [/etc/nginx/sites-enabled/]
+
 EXPOSE 80 443
 ENTRYPOINT ./start.sh
-

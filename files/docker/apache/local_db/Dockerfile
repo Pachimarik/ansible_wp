@@ -15,10 +15,14 @@ WORKDIR /wp
 RUN curl -O https://ru.wordpress.org/latest-ru_RU.tar.gz
 RUN tar -xvzf latest-ru_RU.tar.gz -C /var/www/
 RUN touch /var/www/wordpress/.htaccess
+RUN mkdir /etc/apache2/certs/
 
 COPY wp-config.php /var/www/wordpress/wp-config.php
-COPY default.conf /etc/apache2/sites-enabled/000-default.conf 
 COPY apache.conf /etc/apache2/sites-available/apache.conf
+
+VOLUME [/etc/apache2/sites-enabled/]
+VOLUME [/etc/apache2/certs/]
+
 
 EXPOSE 80 443
 CMD ["/usr/sbin/apachectl", "-D", "FOREGROUND"]

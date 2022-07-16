@@ -2,17 +2,16 @@
   become: 'yes'
   gather_facts: no
   tasks:
-  - name: Copy wp apache edition
+  - name: Copy wp nginx edition
     copy: 
-      src: ../files/docker/apache/{{ item }}
+      src: ../files/docker/nginx/remote_db/{{ item }}
       dest: /app/
     with_items:
       - docker-compose.yml
       - Dockerfile
-      - apache.conf
-      - default.conf
+      - start.sh
+      - wp-conf
       - wp-config.php
-      - mysql.env
 
   - name: Edit file wp-config.php
     lineinfile:
@@ -23,7 +22,7 @@
       - { regexp: "define\\( 'DB_NAME', '.*' \\);", line: "define( 'DB_NAME', '{{ lookup('env','DB_NAME') }}' );" }
       - { regexp: "define\\( 'DB_USER', '.*' \\);", line: "define( 'DB_USER', '{{ lookup('env','DB_USER') }}' );" }
       - { regexp: "define\\( 'DB_PASSWORD', '.*' \\);", line: "define( 'DB_PASSWORD', '{{ lookup('env','DB_PASSWORD') }}' );" }
-      - { regexp: "define\\( 'DB_HOST', '.*' \\);", line: "define( 'DB_HOST', '{{ hostvars[inventory_hostname].ansible_host }}' );" }
+      - { regexp: "define\\( 'DB_HOST', '.*' \\);", line: "define( 'DB_HOST', '{{ lookup('env','DB_HOST') }}' );" }
 
   - name: Install python docker
     pip:
@@ -31,16 +30,6 @@
         - docker
         - docker-compose
       extra_args: --user
-
-  - name: Edit file mysql.env
-    lineinfile:
-      dest: /app/mysql.env
-      regexp: "{{ item.regexp }}"
-      line: "{{ item.line }}"
-    loop:
-      - { regexp: 'MYSQL_DATABASE=', line: "MYSQL_DATABASE={{ lookup('env','DB_NAME') }}" }
-      - { regexp: 'MYSQL_USER=', line: "MYSQL_USER={{ lookup('env','DB_USER') }}" }
-      - { regexp: 'MYSQL_PASSWORD=', line: "MYSQL_PASSWORD={{ lookup('env','DB_PASSWORD') }}" }
 
   - name: Create and start services
     docker_compose:
